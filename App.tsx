@@ -7,7 +7,7 @@ import {
   Inter_900Black
 } from '@expo-google-fonts/inter';
 
-import { Home } from './src/screens';
+import { Routes } from './src/routes';
 import { Background, Loading } from './src/components';
 
 export default function App() {
@@ -21,7 +21,7 @@ export default function App() {
   return (
     <Background>
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent/>
-      { fontsLoaded ? <Home />: <Loading />}
+      { fontsLoaded ? <Routes />: <Loading />}
     </Background>
   );
 }

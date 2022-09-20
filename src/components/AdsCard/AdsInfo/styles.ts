@@ -12,9 +12,9 @@ export const styles = StyleSheet.create({
         fontFamily:THEME.FONT_FAMILY.REGULAR,
         marginBottom: 4
     },
-    value:{        
+    value:{
         fontSize: THEME.FONT_SIZE.SM,
-        fontFamily:THEME.FONT_FAMILY.BOLD,        
+        fontFamily:THEME.FONT_FAMILY.BOLD,
     }
 
 });

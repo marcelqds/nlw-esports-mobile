@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { TouchableOpacity, View, Image } from 'react-native';
+import { TouchableOpacity, View, Image, FlatList, Text } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import {Entypo} from '@expo/vector-icons';
 
@@ -9,6 +9,8 @@ import { styles } from './styles';
 import { GameParams } from '../../@types/navigation';
 import { THEME } from '../../theme';
 import logoImg from '../../assets/logo-nlw-esports.png';
+import { AdsProps } from '../../components';
+
 
 export const Game = () =>{
     const route = useRoute();
@@ -18,13 +20,16 @@ export const Game = () =>{
     const handleGoBack = () => {
         navigation.goBack();
     }
-    const [ads, setAds] = useState();
+
+    const [ads, setAds] = useState<AdsProps[]|[]>([]);
 
     useEffect(() => {
-        fetch(`http://192.168.1.107:3200/game/${id}/ads`)
+        console.log(game.id);
+        fetch(`http://192.168.1.107:3200/game/${game.id}/ads`)
         .then(response => response.json())
         .then(data => {
             setAds(data);
+            console.log(data);
         });
     },[]);
 
@@ -56,7 +61,28 @@ export const Game = () =>{
 
                 <Heading title={game.title} subtitle='Conecte-se e comece a jogar!' />
 
-                <AdsCard />
+                <FlatList
+                    
+                    data={ads}
+                    keyExtractor={item => item.id}
+                    renderItem={({item}) => (
+                        <AdsCard 
+                            key={item.id} 
+                            data={item}
+                            onConnect={() =>{}}
+                        />
+
+                    )}
+                    horizontal
+                    style={styles.containerList}
+                    contentContainerStyle={[ads.length > 0 ? styles.contentList : styles.emptyListContent]}
+                    showsHorizontalScrollIndicator={false}                    
+                    ListEmptyComponent={() => (
+                        <Text style={styles.emptyListText}>
+                            Ainda não há anúncios públicados
+                        </Text>
+                    )}
+                />
 
             </SafeAreaView>
         </Background>

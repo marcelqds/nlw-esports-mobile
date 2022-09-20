@@ -8,7 +8,7 @@ interface Props{
     colorValue?: ColorValue; 
 }
 
-export const AdsInfo = ({label, value, colorValue = THEME.COLORS.TEXT}: Props) => {
+export const AdsInfo = ({label, value, colorValue = THEME.COLORS.TEXT }: Props) => {
     
     return(
         <View style={styles.container}>
@@ -17,6 +17,7 @@ export const AdsInfo = ({label, value, colorValue = THEME.COLORS.TEXT}: Props) =
             </Text>
             <Text 
                 style={[styles.value, {color: colorValue}]}
+                numberOfLines={1}
             >
                 {value}
             </Text>

@@ -5,7 +5,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { THEME } from '../../theme';
 
 
-
 export interface AdsProps{
     id: string;
     name: string;
@@ -37,7 +36,7 @@ export const AdsCard = ({data, onConnect}: Props) => {
         <View style={styles.container}>             
             <AdsInfo label='Nome' value={data.name} />
             <AdsInfo label='Tempo de jogo' value={timePlaying} />
-            <AdsInfo label='Disponibilidade' value={`${data.weekDays.length} dias \u2022 ${data.hoursStart}-${data.hoursEnd}`} />
+    <AdsInfo label='Disponibilidade' value={`${data.weekDays.length} dias \u2022 ${data.hoursStart}-${data.hoursEnd}`} />
             <AdsInfo label='Chamada de áudio?' value={voiceCall} colorValue={colorVoiceCall} />
             
             <TouchableOpacity 

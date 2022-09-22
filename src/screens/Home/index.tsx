@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Image, FlatList } from 'react-native';
+import { Image, FlatList, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native';
 
@@ -33,26 +33,28 @@ export function Home(){
                     style={styles.logo}
                     source={logoImg} 
                 />
-                <Heading
-                    title="Encontre seu duo!"
-                    subtitle="Selecione o game que deseja jogar..."
-                />
-                
-                <FlatList 
-
-                    data={games}
-                    keyExtractor={item => item.id}
-                    renderItem={( {item} ) => (
-                        <GameCard 
-                            data={item}
-                            onPress={() => handleOpenGame(item)}
-                        /> 
-                    )}
+                <ScrollView>
+                    <Heading
+                        title="Encontre seu duo!"
+                        subtitle="Selecione o game que deseja jogar..."
+                    />
                     
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={styles.contentList}
-                />
+                    <FlatList 
+
+                        data={games}
+                        keyExtractor={item => item.id}
+                        renderItem={( {item} ) => (
+                            <GameCard 
+                                data={item}
+                                onPress={() => handleOpenGame(item)}
+                            /> 
+                        )}
+                        
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={styles.contentList}
+                    />
+                </ScrollView>
             </SafeAreaView>
         </Background>
     )

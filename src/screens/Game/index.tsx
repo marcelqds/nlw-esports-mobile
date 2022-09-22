@@ -1,35 +1,43 @@
 import { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { TouchableOpacity, View, Image, FlatList, Text } from 'react-native';
+import { TouchableOpacity, View, Image, FlatList, Text, ScrollView } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import {Entypo} from '@expo/vector-icons';
 
-import { AdsCard, Background, Heading } from '../../components';
+import { AdsCard, Background, Heading, AdsMatch } from '../../components';
 import { styles } from './styles';
 import { GameParams } from '../../@types/navigation';
 import { THEME } from '../../theme';
 import logoImg from '../../assets/logo-nlw-esports.png';
 import { AdsProps } from '../../components';
 
-
 export const Game = () =>{
+    
     const route = useRoute();
     const game = route.params as GameParams;
     const navigation = useNavigation();
 
+    const [ads, setAds] = useState<AdsProps[]|[]>([]);
+    const [discordAdsSelected, setDiscordAdsSelected] = useState("");
+
     const handleGoBack = () => {
         navigation.goBack();
     }
+    
+    const getDiscord = async (adsId: string) => {        
+        fetch(`http://192.168.1.107:3200/ads/${adsId}/discord`)
+        .then(response => response.json())
+        .then(data => {
+            if(data.hasOwnProperty('discord'))                
+                return setDiscordAdsSelected(data.discord)
+        });
+    }
 
-    const [ads, setAds] = useState<AdsProps[]|[]>([]);
-
-    useEffect(() => {
-        console.log(game.id);
+    useEffect(() => {        
         fetch(`http://192.168.1.107:3200/game/${game.id}/ads`)
         .then(response => response.json())
         .then(data => {
-            setAds(data);
-            console.log(data);
+            setAds(data);            
         });
     },[]);
 
@@ -53,37 +61,44 @@ export const Game = () =>{
 
                     <View style={styles.right}></View>
                 </View>
-                <Image 
-                    style={styles.cover} 
-                    source={{ uri: game.bannerUrl }}
-                    resizeMode='cover'
-                />
+                <ScrollView>
+                    <Image 
+                        style={styles.cover} 
+                        source={{ uri: game.bannerUrl }}
+                        resizeMode='cover'
+                    />
 
-                <Heading title={game.title} subtitle='Conecte-se e comece a jogar!' />
+                    <Heading title={game.title} subtitle='Conecte-se e comece a jogar!' />
 
-                <FlatList
-                    
-                    data={ads}
-                    keyExtractor={item => item.id}
-                    renderItem={({item}) => (
-                        <AdsCard 
-                            key={item.id} 
-                            data={item}
-                            onConnect={() =>{}}
-                        />
+                    <FlatList
 
-                    )}
-                    horizontal
-                    style={styles.containerList}
-                    contentContainerStyle={[ads.length > 0 ? styles.contentList : styles.emptyListContent]}
-                    showsHorizontalScrollIndicator={false}                    
-                    ListEmptyComponent={() => (
-                        <Text style={styles.emptyListText}>
-                            Ainda não há anúncios públicados
-                        </Text>
-                    )}
-                />
+                        data={ads}
+                        keyExtractor={item => item.id}
+                        renderItem={({item}) => (
+                            <AdsCard 
+                                key={item.id} 
+                                data={item}
+                                onConnect={() => {getDiscord(item.id)}}
+                            />
+                        )}
 
+                        horizontal
+                        style={styles.containerList}
+                        contentContainerStyle={[ads.length > 0 ? styles.contentList : styles.emptyListContent]}
+                        showsHorizontalScrollIndicator={false}                    
+                        ListEmptyComponent={() => (
+                            <Text style={styles.emptyListText}>
+                                Ainda não há anúncios públicados
+                            </Text>
+                        )}
+                    />
+
+                    <AdsMatch 
+                        visible={ discordAdsSelected.length > 0 }
+                        discord={discordAdsSelected}
+                        onClose={() => setDiscordAdsSelected('')}
+                    />
+                </ScrollView>
             </SafeAreaView>
         </Background>
     );

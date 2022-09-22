@@ -9,13 +9,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { styles } from './style';
 import { THEME } from '../../theme';
 
-// export interface GameCardProps {
-//     id: string;
-//     name: string;
-//     ads: string;
-//     cover: ImageSourcePropType;
-// }
-
 export interface GameCardProps {
     id: string;
     title: string;

@@ -25,9 +25,21 @@
 ```bash
     npm install @react-navigation/native-stack
 ```
+- [x]  [Clipboard]('https://docs.expo.dev/versions/latest/sdk/clipboard/')
+```bash
+    expo install expo-clipboard
+```
+- [x]  [Notifications]('https://docs.expo.dev/versions/latest/sdk/notifications/')
+```bash
+    expo install expo-notifications
+```
+- [x]  [Expo modules core]('')
+```bash
+    expo install expo-modules-core
+```
 
-
-
+## Test Notification
+[Push notifications tool]('https://expo.dev/notifications')
 
 <!--
 ```bash
